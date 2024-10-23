@@ -1,3 +1,23 @@
 #cantidadRopa{
     font-size: .8rem;
 }
+
+input{
+    border: 0;
+    width: 100% !important;
+}
+
+input:focus {
+    background: #F2F2F2;
+    border: 1.5px transparent solid !important;
+    box-shadow: 0px 0px transparent !important;
+    transition: 0.3s all;
+}
+
+#cantidadRopa{
+    width: 12vh;
+}
+#cantidadRopa label{
+    text-align: center;
+    width: 100%;
+}
