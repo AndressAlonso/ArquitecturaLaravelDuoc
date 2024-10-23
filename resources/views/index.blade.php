@@ -92,7 +92,9 @@
         </div>
       </div>
     </nav>
+    <main>
     @yield('content')
+    </main>
     <div class="card text-center">
       <div class="card-header">
 

@@ -21,7 +21,7 @@ class LoginController extends Controller
             ], [
                 'name.required' => 'El nombre es obligatorio.',
                 'email.required' => 'El correo electrónico es obligatorio.',
-                'email.unique' => 'Este correo electrónico ya está en uso.',
+                'email.unique' => 'El correo electrónico ya está en uso.',
                 'password.required' => 'La contraseña es obligatoria.',
                 'password.confirmed' => 'Las contraseñas no coinciden.',
             ]);
