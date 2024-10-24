@@ -4,6 +4,7 @@ use Faker\Factory;
 use GuzzleHttp\Middleware;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\RopaController;
 
 route::view('/login', "login")->name('login');
 route::view('/registro', "registro")->name('registro');
@@ -29,3 +30,7 @@ Route::get('/ingresos', function () {
 Route::get('/egresos', function () {
     return view('egresos'); 
 })->middleware('auth')->name('egresos');
+
+
+Route::get('/crearTServicioClinico', [RopaController::class, 'CrearTiposSCLinicos'])->name('CrearTipoServicio');
+Route::get('/crearTipoRopa', [RopaController::class, 'CrearTipoRopa'])->name('CrearTipoRopa');
