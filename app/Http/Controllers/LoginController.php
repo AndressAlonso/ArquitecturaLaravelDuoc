@@ -15,20 +15,31 @@ class LoginController extends Controller
             return redirect()->route('home')->with('success', 'Ya estás logueado!');
         } else {
             $request->validate([
-                'name' => 'required|string|max:255',
+                'fname'=>'required|string|max:255|min:3',
+                'lname'=>'required|string|max:255|min:3',
+                'sClinicos'=>'required|array',
                 'email' => 'required|string|email|max:255|unique:users',
                 'password' => 'required|string|min:8|confirmed',
             ], [
-                'name.required' => 'El nombre es obligatorio.',
+                'fname.required' => 'El nombre es obligatorio.',
+                'sClinicos.required' => 'El usuario debe tener servicios clinicos asociados.',
+                'fname.min' => 'El nombre debe tener al menos 3 caracteres.',
+                'fname.max' => 'El nombre no debe tener más de 255 caracteres.',
+                'lname.required' => 'El apellido es obligatorio.',
+                'lname.min' => 'El apellido debe tener al menos 3 caracteres.',
+                'lname.max' => 'El apellido no debe tener más de 255 caracteres.',
                 'email.required' => 'El correo electrónico es obligatorio.',
                 'email.unique' => 'El correo electrónico ya está en uso.',
                 'password.required' => 'La contraseña es obligatoria.',
                 'password.confirmed' => 'Las contraseñas no coinciden.',
+                'password.min' => 'La contraseña debe tener al menos 8 caracteres.',
             ]);
             
             $user = new User();
-            $user->name = $request->name;
-            $user->email = $request->email;
+            $user->email = strtolower($request->email) ;
+            $user->fname = $request->fname;
+            $user->lname = $request->lname;
+            $user->sClinicos = json_encode($request->sClinicos);
             $user->password = Hash::make($request->password);
             $user->save();
             
@@ -38,9 +49,9 @@ class LoginController extends Controller
 
     public function login(Request $request)
     {
-        // Validación
+        
         $credentials = [
-            'email' => $request->email,
+            'email' => strtolower($request->email),
             'password' => $request->password
         ];
         $remember = ($request->has('remember') ? true : false);

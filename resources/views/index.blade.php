@@ -92,13 +92,10 @@
         </div>
       </div>
     </nav>
-    <main>
+    <main class="container" >
     @yield('content')
     </main>
     <div class="card text-center">
-      <div class="card-header">
-
-      </div>
       <div class="card-body">
         <h5 class="card-title">Footer</h5>
         <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>

@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('ropas', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('tipo_ropa_id')->nullable()->constrained('tipo_ropas');
+            $table->string('tipo_ropa');
             $table-> enum('estado_ropa',
             ['Limpia', 'Sucia', 'Proceso Lavado', 'En Movimiento', 'Disponible']);
             $table->timestamps();

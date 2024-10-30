@@ -14,21 +14,34 @@
             id="emailInput" name="email" class="form-control " placeholder="Tu Email">
     </div>
     <div>
-        <label for="userInput" class="form-label">Usuario</label>
-        <input type="text" required name="name" id="userInput" class="form-control "
-            placeholder="Tu Usuario">
+        <label for="userInput" class="form-label">Nombre</label>
+        <input type="text" required name="fname" id="userInput" class="form-control " placeholder="Tu nombre">
+    </div>
+    <div>
+        <label for="userInput" class="form-label">Apellido</label>
+        <input type="text" required name="lname" id="userInput" class="form-control " placeholder="Tu apellido">
     </div>
     <div>
         <label for="passwordInput" class="form-label">Contraseña</label>
-        <input type="password" name="password" required name="password" id="passwordInput"
-            class="form-control " placeholder="Tu Contraseña">
+        <input type="password" name="password" required name="password" id="passwordInput" class="form-control "
+            placeholder="Tu Contraseña">
     </div>
     <div>
         <label for="password_confirmation" class="form-label">Confirmar Contraseña</label>
-        <input type="password" name="password_confirmation" class="form-control " id="password_confirmation" placeholder="Confirma tu Contraseña" required>
+        <input type="password" name="password_confirmation" class="form-control " id="password_confirmation"
+            placeholder="Confirma tu Contraseña" required>
+    </div>
+    <div>
+        <label for="clinical_services">Servicios Clínicos Asociados:</label>
+        <label for="clinical_services" class="helptext"> <span class="helptext">>Para marcar mas de un servicio Clinico Manten Presionado CTRL o Si estas en celular debes presionar dos veces para que se marque mas de una opcion</span></label>
+        <select id="clinical_services" name="sClinicos[]" class="form-select" multiple required>
+            <option value="pediatrics">Pediatría</option>
+            <option value="cardiology">Cardiología</option>
+            <option value="orthopedics">Ortopedia</option>
+            <option value="neurology">Neurología</option>
+        </select>
     </div>
 
-    
     <ul class="errorlist text-center">
         @foreach ($errors->all() as $error)
             <li>{{ $error }}</li>
