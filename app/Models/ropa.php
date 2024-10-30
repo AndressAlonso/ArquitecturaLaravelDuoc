@@ -1,18 +1,13 @@
 <?php
 
 namespace App\Models;
-
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-
-class ropa extends Model
+class Ropa extends Model
 {
-    use HasFactory;
-    public function ropas()
+    protected $table = 'ropa';
+    protected $fillable = ['tipo'];
+    public function serviciosClinicos()
     {
-        return
-            $this->belongsToMany(tipo_servicios_cli::class, 'servicio_clinico')
-            ->withPivot('cantidad')
-            ->withTimestamps();
+        return $this->belongsToMany(ServicioClinico::class, 'servicio_clinico_ropa')->withPivot('estado', 'cantidad')->withTimestamps();
     }
 }

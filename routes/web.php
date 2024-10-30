@@ -8,7 +8,6 @@ use App\Http\Controllers\adminController;
 route::view('/login', "login")->name('login');
 route::view('/registro', "registro")->name('registro');
 
-
 Route::get('/admin', [adminController::class, 'listTables'])->name('admin.tablas');
 Route::get('/admin/{table}', [adminController::class, 'showTable'])->name('admin.mostrarTabla');
 
@@ -17,9 +16,7 @@ route::post('/inicia-sesion', [LoginController::class, 'login'])->name('inicia-s
 route::get('/logout', [LoginController::class, 'logout'])->name('logout');
 
 
-Route::get('/', function () {
-    return view('home');
-})->middleware('auth')->name('home');
+Route::get('/', [RopaController::class, 'home'])->middleware('auth')->name('home');
 
 Route::get('index', function () {
     return view('index');

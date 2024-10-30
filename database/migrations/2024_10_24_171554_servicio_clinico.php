@@ -11,12 +11,10 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('servicio_clinicos', function (Blueprint $table) { 
+        Schema::create('servicio_clinico', function (Blueprint $table) { 
             $table->id();
-            $table->foreignId('servicio_clinico_id')->constrained('tipo_servicios_cli')->onDelete('cascade');
-            $table->foreignId('ropa_id')->constrained('ropas')->onDelete('cascade');
-            $table->integer('cantidad')->default(0);
-            $table->timestamps();
+            $table-> string('nombre');
+            $table-> timestamps();
         });
     }
 
@@ -25,6 +23,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('servicio_clinicos');
+        Schema::dropIfExists('servicio_clinico');
     }
 };

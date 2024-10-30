@@ -11,11 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('ropas', function (Blueprint $table) {
+        Schema::create('servicio_clinico_ropa', function (Blueprint $table) {
             $table->id();
-            $table->string('tipo_ropa');
-            $table-> enum('estado_ropa',
-            ['Limpia', 'Sucia', 'Proceso Lavado', 'En Movimiento', 'Disponible']);
+            $table->foreignId('servicio_clinico_id')->constrained('servicio_clinico')->onDelete('cascade');
+            $table->foreignId('ropa_id')->constrained('ropa')->onDelete('cascade');
+            $table->string('estado');
+            $table->integer('cantidad'); 
             $table->timestamps();
         });
     }
@@ -25,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('ropas');
+        Schema::dropIfExists('servicio_clinico_ropa');
     }
 };
