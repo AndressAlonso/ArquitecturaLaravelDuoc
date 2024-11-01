@@ -90,7 +90,7 @@
 
 
           <li class="nav-item">
-            <a class="nav-link" href="#">Reportes</a>
+            <a class="nav-link" href="{{route('reportes')}}">Reportes</a>
           </li>
         </ul>
         <div class="ps-md-4">

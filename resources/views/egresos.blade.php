@@ -36,25 +36,45 @@
             </div>
         </div>
     </div>
-    <div class="row">
+    <div class="row my-4">
         @foreach(json_decode($servicioClinicos) as $clinicos)
             <div class="col-md-4">
                 <div class="card mb-4">
-                    <div class="card-header">
-                        <h5 class="card-title">ID: {{ $clinicos->id }}</h5>
-                        <h6 class="card-subtitle text-muted">Nombre: {{ $clinicos->nombre }}</h6>
+                    <div class="card-header d-flex gap-2 flex-column">
+                        <span class="card-title fw-bold">Nombre: {{ $clinicos->nombre }}</span>
+                        <h6 class="card-subtitle text-muted">ID: {{ $clinicos->id }}</h6>
                     </div>
                     <div class="card-body">
-                        <h6>Ropas:</h6>
+                        <div class="d-flex flex-column justify-content-center align-items-center">
+                        <h6>Ropa Sucia:</h6>
                         <ul class="list-group">
                             @foreach($clinicos->ropas as $ropa)
-                                <li class="list-group-item d-flex justify-content-between align-items-center">
-                                    {{ $ropa->tipo }}
-                                    <span class="badge badge-primary text-black-50 badge-pill">Cantidad: {{ $ropa->pivot->cantidad }}</span>
-                                    <span class="badge badge-secondary text-black-50 badge-pill">Estado: {{ $ropa->pivot->estado }}</span>
-                                </li>
+                                @if ($ropa->pivot->estado == 'sucia')
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        {{ $ropa->tipo }}
+                                        <span class="badge badge-primary text-black-50 badge-pill">Cantidad:
+                                            {{ $ropa->pivot->cantidad }}</span>
+                                        <span class="badge badge-secondary text-black-50 badge-pill">Estado:
+                                            {{ $ropa->pivot->estado }}</span>
+                                    </li>
+                                @endif
                             @endforeach
                         </ul>
+                        <h6>Ropa Limpia:</h6>
+                        <ul class="list-group">
+                            @foreach($clinicos->ropas as $ropa)
+                                @if ($ropa->pivot->estado == 'limpia')
+                                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                                        {{ $ropa->tipo }}
+                                        <span class="badge badge-primary text-black-50 badge-pill">Cantidad:
+                                            {{ $ropa->pivot->cantidad }}</span>
+                                        <span class="badge badge-secondary text-black-50 badge-pill">Estado:
+                                            {{ $ropa->pivot->estado }}</span>
+                                    </li>
+                                @endif
+                            @endforeach
+                        </ul>
+                        </div>
                     </div>
                 </div>
             </div>

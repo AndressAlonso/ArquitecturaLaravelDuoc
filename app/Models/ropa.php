@@ -10,10 +10,15 @@ class ropa extends Model
     {
         return $this->belongsToMany(ServicioClinico::class, 'servicio_clinico_ropa')->withPivot('estado', 'cantidad')->withTimestamps();
     }
-    
+
     public function IngresoRopas()
-{
-    return $this->belongsToMany(IngresoRopa::class, 'ingresos_ropa')->withPivot('estado', 'cantidad')->withTimestamps();
-}
+    {
+        return $this->belongsToMany(IngresoRopa::class, 'ingresos_ropa')->withPivot('estado', 'cantidad')->withTimestamps();
+    }
+
+    public function MovimientoRopas()
+    {
+        return $this->belongsToMany(MovimientoRopa::class, 'movimiento_ropas')->withPivot('estado', 'cantidad')->withTimestamps();
+    }
 
 }
