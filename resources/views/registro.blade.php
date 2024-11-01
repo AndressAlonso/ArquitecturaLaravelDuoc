@@ -35,10 +35,9 @@
         <label for="clinical_services">Servicios Clínicos Asociados:</label>
         <label for="clinical_services" class="helptext"> <span class="helptext">>Para marcar mas de un servicio Clinico Manten Presionado CTRL o Si estas en celular debes presionar dos veces para que se marque mas de una opcion</span></label>
         <select id="clinical_services" name="sClinicos[]" class="form-select" multiple required>
-            <option value="pediatrics">Pediatría</option>
-            <option value="cardiology">Cardiología</option>
-            <option value="orthopedics">Ortopedia</option>
-            <option value="neurology">Neurología</option>
+            @foreach ($sClinicos as $sclinico )
+            <option value="{{$sclinico->nombre}}"> {{$sclinico->nombre}} </option>
+            @endforeach
         </select>
     </div>
 

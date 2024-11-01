@@ -22,6 +22,7 @@ class User extends Authenticatable
         'lname',
         'sClinicos',
         'password',
+        'isAdmin'
     ];
 
     /**

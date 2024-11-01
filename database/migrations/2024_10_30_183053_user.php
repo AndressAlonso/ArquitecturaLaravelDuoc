@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('fname');
             $table->string('lname');
             $table->json('sClinicos');
+            $table->boolean('isAdmin')->default(false);
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();

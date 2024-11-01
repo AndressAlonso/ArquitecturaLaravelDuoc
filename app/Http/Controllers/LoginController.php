@@ -2,13 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\ServicioClinico;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
-
+use Illuminate\Support\Facades\DB;
 class LoginController extends Controller
 {
+    public function registro(){
+        
+
+        $sClinicos = DB::table('servicio_clinico')->get();
+        return view('registro', compact('sClinicos'));
+    }
     public function register(Request $request)
     {
         if (Auth::check()) {
@@ -34,6 +41,7 @@ class LoginController extends Controller
                 'password.confirmed' => 'Las contraseñas no coinciden.',
                 'password.min' => 'La contraseña debe tener al menos 8 caracteres.',
             ]);
+            
             
             $user = new User();
             $user->email = strtolower($request->email) ;

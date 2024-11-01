@@ -3,7 +3,8 @@
 @section('links')
 <link rel="stylesheet" href="{{ asset(path: 'css/egresos.css') }}">@endsection
 @section('content')
-<div class="d-flex flex-column container">
+<form method="post" action="{{ route('egresos2') }}" class="d-flex flex-column container">
+    @csrf
     <div class="d-flex justify-content-center flex-column ">
         <div id="egresos" class="d-flex flex-column justify-content-center container-fluid">
             <div id="title" class="w-100 text-center fw-bold">
@@ -13,238 +14,57 @@
                 <div class="d-flex flex-column">
                     <span>Egresar desde: </span>
                     <select name="ServicioDesde" class="form-select" id="ssServicioDesde">
-                        <option value="-1">Elige Servicio Clinico</option>
-                        <option value="1">Pediatria</option>
-                        <option value="2">Urgencias</option>
+                        <option value="-1">Elige Servicio Clínico</option>
+                        @foreach (json_decode($serviciosClinicosusuario) as $clinicos)
+                            <option value="{{ $clinicos->id }}">{{ $clinicos->nombre }}</option>
+                        @endforeach
                     </select>
-                </div>
-                <div id="RopaSuciaLimpia"
-                    class="bg-light justify-content-around d-flex align-items-center flex-wrap w-100 py-3">
-                    <div id="ropaSucia">
-                        <div id="title">
-                            <span>Ropa Sucia</span>
-                        </div>
-                        <div
-                            class=" d-flex justify-content-start flex-fill flex-wrap align-items-center gap-3  flex-row ">
-                            <div class="d-flex justify-content-center gap-3 ">
-                                <div class="d-flex flex-column text-start gap-0">
-                                    <span>Camisetas</span>
-                                    <span class="text-black-50" id="cantidadRopa">20 Unidades</span>
-                                </div>
-                            </div>
-                            <div class="d-flex justify-content-center gap-3">
-                                <div class="d-flex flex-column text-start gap-0">
-                                    <span>Camisetas</span>
-                                    <span class="text-black-50" id="cantidadRopa">20 Unidades</span>
-                                </div>
-
-                            </div>
-                            <div class="d-flex justify-content-center gap-3">
-                                <div class="d-flex flex-column text-start gap-0">
-                                    <span>Camisetas</span>
-                                    <span class="text-black-50" id="cantidadRopa">20 Unidades</span>
-                                </div>
-
-                            </div>
-                            <div class="d-flex justify-content-center gap-3">
-                                <div class="d-flex flex-column text-start gap-0">
-                                    <span>Camisetas</span>
-                                    <span class="text-black-50" id="cantidadRopa">20 Unidades</span>
-                                </div>
-
-                            </div>
-                            <div class="d-flex justify-content-center gap-3">
-                                <div class="d-flex flex-column text-start gap-0">
-                                    <span>Sabanas</span>
-                                    <span class="text-black-50" id="cantidadRopa">40 Unidades</span>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                    <div id="ropaLimpia">
-                        <div id="title">
-                            <span>Ropa Limpia</span>
-                        </div>
-                        <div
-                            class=" d-flex justify-content-start flex-fill flex-wrap align-items-center gap-3 flex-row">
-                            <div class="d-flex justify-content-center gap-3 ">
-                                <div class="d-flex flex-column text-start gap-0">
-                                    <span>Camisetas</span>
-                                    <span class="text-black-50" id="cantidadRopa">20 Unidades</span>
-                                </div>
-
-                            </div>
-                            <div class="d-flex justify-content-center gap-3">
-                                <div class="d-flex flex-column text-start gap-0">
-                                    <span>Camisetas</span>
-                                    <span class="text-black-50" id="cantidadRopa">20 Unidades</span>
-                                </div>
-
-                            </div>
-                            <div class="d-flex justify-content-center gap-3">
-                                <div class="d-flex flex-column text-start gap-0">
-                                    <span>Camisetas</span>
-                                    <span class="text-black-50" id="cantidadRopa">20 Unidades</span>
-                                </div>
-
-                            </div>
-                            <div class="d-flex justify-content-center gap-3">
-                                <div class="d-flex flex-column text-start gap-0">
-                                    <span>Camisetas</span>
-                                    <span class="text-black-50" id="cantidadRopa">20 Unidades</span>
-                                </div>
-
-                            </div>
-                            <div class="d-flex justify-content-center gap-3">
-                                <div class="d-flex flex-column text-start gap-0">
-                                    <span>Sabanas</span>
-                                    <span class="text-black-50" id="cantidadRopa">40 Unidades</span>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-
                 </div>
             </div>
             <div id="hEgreso" class="d-flex gap-2 flex-column">
                 <div class="d-flex flex-column">
                     <span>Egresar hacia: </span>
-                    <select name="ServicioDesde" class="form-select" id="ssServicioDesde">
-                        <option value="-1">Elige Servicio Clinico</option>
-                        <option value="1">Pediatria</option>
-                        <option value="2">Urgencias</option>
+                    <select name="ServicioHacia" class="form-select" id="ssServicioHacia">
+                        <option value="-1">Elige Servicio Clínico</option>
+                        @foreach (json_decode($servicioClinicos) as $clinicos)
+                            <option value="{{ $clinicos->id }}">{{ $clinicos->nombre }}</option>
+                        @endforeach
                     </select>
+
                 </div>
-                <div id="RopaSuciaLimpia"
-                    class="bg-light justify-content-between px-2 d-flex align-items-center flex-wrap w-100 py-3">
-                    <div id="ropaSucia">
-                        <div id="title">
-                            <span>Ropa Sucia</span>
-                        </div>
-                        <div class="d-flex justify-content-start flex-fill flex-wrap align-items-center gap-3 flex-row">
-                            <div class="d-flex justify-content-center gap-3 ">
-                                <div class="d-flex flex-column text-start gap-0">
-                                    <span>Camisetas</span>
-                                    <span class="text-black-50" id="cantidadRopa">20 Unidades</span>
-                                </div>
-                            </div>
-                            <div class="d-flex justify-content-center gap-3">
-                                <div class="d-flex flex-column text-start gap-0">
-                                    <span>Camisetas</span>
-                                    <span class="text-black-50" id="cantidadRopa">20 Unidades</span>
-                                </div>
 
-                            </div>
-                            <div class="d-flex justify-content-center gap-3">
-                                <div class="d-flex flex-column text-start gap-0">
-                                    <span>Camisetas</span>
-                                    <span class="text-black-50" id="cantidadRopa">20 Unidades</span>
-                                </div>
-
-                            </div>
-                            <div class="d-flex justify-content-center gap-3">
-                                <div class="d-flex flex-column text-start gap-0">
-                                    <span>Camisetas</span>
-                                    <span class="text-black-50" id="cantidadRopa">20 Unidades</span>
-                                </div>
-
-                            </div>
-                            <div class="d-flex justify-content-center gap-3">
-                                <div class="d-flex flex-column text-start gap-0">
-                                    <span>Sabanas</span>
-                                    <span class="text-black-50" id="cantidadRopa">40 Unidades</span>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                    <div id="ropaLimpia">
-                        <div id="title">
-                            <span>Ropa Limpia</span>
-                        </div>
-                        <div
-                            class=" d-flex justify-content-start flex-fill flex-wrap align-items-center gap-3 flex-row">
-                            <div class="d-flex justify-content-center gap-3 ">
-                                <div class="d-flex flex-column text-start gap-0">
-                                    <span>Camisetas</span>
-                                    <span class="text-black-50" id="cantidadRopa">20 Unidades</span>
-                                </div>
-
-                            </div>
-                            <div class="d-flex justify-content-center gap-3">
-                                <div class="d-flex flex-column text-start gap-0">
-                                    <span>Camisetas</span>
-                                    <span class="text-black-50" id="cantidadRopa">20 Unidades</span>
-                                </div>
-
-                            </div>
-                            <div class="d-flex justify-content-center gap-3">
-                                <div class="d-flex flex-column text-start gap-0">
-                                    <span>Camisetas</span>
-                                    <span class="text-black-50" id="cantidadRopa">20 Unidades</span>
-                                </div>
-
-                            </div>
-                            <div class="d-flex justify-content-center gap-3">
-                                <div class="d-flex flex-column text-start gap-0">
-                                    <span>Camisetas</span>
-                                    <span class="text-black-50" id="cantidadRopa">20 Unidades</span>
-                                </div>
-
-                            </div>
-                            <div class="d-flex justify-content-center gap-3">
-                                <div class="d-flex flex-column text-start gap-0">
-                                    <span>Sabanas</span>
-                                    <span class="text-black-50" id="cantidadRopa">40 Unidades</span>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div id="cantidadesRopa" class="d-flex justify-content-evenly flex-row w-100 flex-fill container-fluid">
-            <div id="limpiaContainer" class="bg-light flex-fill">
-                <div id="titleRopalimpia">
-                    <span>Ropa Limpia</span>
-                </div>
-                <div id="ropaLimpia" class="p-2 d-flex justify-content-start flex-wrap align-items-center gap-3">
-                <div id="cantidadRopa" class="">
-                        <label for="iSabanas" class="form-label">Sabanas</label>
-                        <div class="d-flex justify-content-around align-items-center gap-2">
-                        <input type="number" min="0" id="iSabanas" class="form-control text-center">
-                        </div>
-                    </div>
-                    <div id="cantidadRopa" class="">
-                        <label for="iSabanas" class="form-label">Sabanas</label>
-                        <div class="d-flex justify-content-around align-items-center gap-2">
-                        <input type="number" min="0" id="iSabanas" class="form-control text-center">
-                        </div>
-                    </div>
-                    
-                </div>
-            </div>
-            <div id="suciaContainer" class="bg-light flex-fill">
-                <div id="titleRopalimpia">
-                    <span>Ropa Sucia</span>
-                </div>
-                <div id="ropaSucia" class="p-2 d-flex justify-content-start flex-wrap align-items-center gap-3">
-                <div id="cantidadRopa" class="">
-                        <label for="iSabanas" class="form-label">Sabanas</label>
-                        <div class="d-flex justify-content-around align-items-center gap-2">
-                        <input type="number" min="0" id="iSabanas" class="form-control text-center">
-                        </div>
-                    </div>
-                </div>
             </div>
         </div>
     </div>
+    <div class="row">
+        @foreach(json_decode($servicioClinicos) as $clinicos)
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="card-title">ID: {{ $clinicos->id }}</h5>
+                        <h6 class="card-subtitle text-muted">Nombre: {{ $clinicos->nombre }}</h6>
+                    </div>
+                    <div class="card-body">
+                        <h6>Ropas:</h6>
+                        <ul class="list-group">
+                            @foreach($clinicos->ropas as $ropa)
+                                <li class="list-group-item d-flex justify-content-between align-items-center">
+                                    {{ $ropa->tipo }}
+                                    <span class="badge badge-primary text-black-50 badge-pill">Cantidad: {{ $ropa->pivot->cantidad }}</span>
+                                    <span class="badge badge-secondary text-black-50 badge-pill">Estado: {{ $ropa->pivot->estado }}</span>
+                                </li>
+                            @endforeach
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        @endforeach
+    </div>
+
     <div id="confirmarEgreso" class="w-100 d-flex justify-content-center align-items-center py-3">
-        <a href="" class="btn btn-light w-75">Egresar</a>
+        <button type="submit" class="btn btn-light w-75">Egresar</button>
     </div>
-</div>
+</form>
+
 
 @endsection

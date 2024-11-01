@@ -1,6 +1,5 @@
 <?php
 
-// En app/Models/ServicioClinico.php
 namespace App\Models;
 use App\Models\Ropa;
 use Illuminate\Database\Eloquent\Model;

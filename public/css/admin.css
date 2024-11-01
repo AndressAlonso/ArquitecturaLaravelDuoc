@@ -61,8 +61,15 @@ input:focus{
     font-weight: light;
     font-style: italic;
     font-size: 15px;
-    text-align: start;
+    text-align: center;
 }
+
+@media (min-width: 990px) {
+    #helptext{
+        max-width:50vh ;
+    }
+}
+
 
 
 .helptext ul {

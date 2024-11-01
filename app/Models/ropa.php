@@ -2,7 +2,7 @@
 
 namespace App\Models;
 use Illuminate\Database\Eloquent\Model;
-class Ropa extends Model
+class ropa extends Model
 {
     protected $table = 'ropa';
     protected $fillable = ['tipo'];
@@ -10,4 +10,10 @@ class Ropa extends Model
     {
         return $this->belongsToMany(ServicioClinico::class, 'servicio_clinico_ropa')->withPivot('estado', 'cantidad')->withTimestamps();
     }
+    
+    public function IngresoRopas()
+{
+    return $this->belongsToMany(IngresoRopa::class, 'ingresos_ropa')->withPivot('estado', 'cantidad')->withTimestamps();
+}
+
 }
