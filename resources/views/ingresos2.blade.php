@@ -3,8 +3,8 @@
 <div class="d-flex flex-column">
     <div class="d-flex justify-content-between gap-2 flex-column flex-wrap container ">
         <div id="DatosServicioClinico" class="flex-fill d-flex flex-column justify-content-center">
-            <div id="title" class="w-100 text-center fw-bold">
-                <span class="fs-4">Ingresos</span>
+            <div id="title" class="w-100 text-end p-1">
+                <span class="">Ingresos</span>
             </div>
             <div id="eDesde" class="d-flex flex-column gap-2">
                 <div class="d-flex flex-column">
@@ -68,7 +68,7 @@
         </div>
         <div id="ingresosEntrantes" class="flex-fill d-flex flex-column justify-content-center">
             <div id="title" class="py-2">
-                <span class="text-black-50">Ingresos restantes</span>
+                <span class="text-black-50">Ingresos Disponibles</span>
             </div>
             <div class="d-flex flex-column gap-3 w-100">
                 @foreach ($ingresosServicioClinico as $ingreso)

@@ -6,8 +6,8 @@
 <div class="d-flex flex-column container">
     <div class="d-flex justify-content-center flex-column ">
         <div id="egresos" class="d-flex flex-column justify-content-center container-fluid">
-            <div id="title" class="w-100 text-center fw-bold">
-                <span class="fs-4">Egresar</span>
+            <div id="title" class="w-100 text-end p-1">
+                <span class="">Egresar-Confirmacion</span>
             </div>
             <div id="eDesde" class="d-flex flex-column gap-2">
                 <div class="d-flex flex-column">
