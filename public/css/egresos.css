@@ -2,12 +2,12 @@
     font-size: .8rem;
 }
 
-input{
+input:not([type="checkbox"]) {
     border: 0;
     width: 100% !important;
 }
 
-input:focus {
+input:focus:not([type="checkbox"]) {
     background: #F2F2F2;
     border: 1.5px transparent solid !important;
     box-shadow: 0px 0px transparent !important;

@@ -32,13 +32,10 @@
                                             <span>{{$ropa->tipo}}</span>
                                             <span class="text-black-50 w-100" id="cantidadRopa">{{ $ropa->pivot->cantidad }}
                                                 Unidades</span>
-
                                         </div>
                                     </div>
                                 @endif
                             @endforeach
-
-
                         </div>
                     </div>
                     <div id="ropaLimpia" class="flex-fill">
@@ -59,8 +56,6 @@
                                     </div>
                                 @endif
                             @endforeach
-
-
                         </div>
                     </div>
 
@@ -108,7 +103,6 @@
                                             <span>{{$ropa->tipo}}</span>
                                             <span class="text-black-50 w-100" id="cantidadRopa">{{ $ropa->pivot->cantidad }}
                                                 Unidades</span>
-
                                         </div>
                                     </div>
                                 @endif
@@ -137,7 +131,6 @@
                                         name="ropas[{{$ropa->id}}][cantidad]" value="0">
                                     <input type="hidden" name="ropas[{{$ropa->id}}][tipo]" value="{{$ropa->tipo}}">
                                     <input type="hidden" name="ropas[{{$ropa->id}}][estado]" value="sucia">
-                                    <!-- Estado agregado aquí -->
                                 </div>
                             </div>
                         @endif
@@ -160,7 +153,6 @@
                                         name="ropas[{{$ropa->id}}][cantidad]" value="0">
                                     <input type="hidden" name="ropas[{{$ropa->id}}][tipo]" value="{{$ropa->tipo}}">
                                     <input type="hidden" name="ropas[{{$ropa->id}}][estado]" value="limpia">
-                                    <!-- Estado agregado aquí -->
                                 </div>
                             </div>
                         @endif
@@ -170,7 +162,13 @@
             <div id="confirmarEgreso" class="w-100 d-flex justify-content-center align-items-center py-3">
                 <input type="hidden" name="sClinico1" value="{{$servicioClinico1}}">
                 <input type="hidden" name="sClinico2" value="{{$servicioClinico2}}">
-                <button type="submit" class="btn btn-light w-75">Egresar</button>
+                <div class="d-flex flex-column justify-content-center align-items-center w-100 bg-light">
+                    <div class="form-check my-2">
+                        <input type="checkbox" class="form-check-input" id="procesoLavado" name="procesoLavado">
+                        <label for="procesoLavado" class="form-check-label">Proceso de Lavado</label>
+                    </div>
+                    <button type="submit" class="btn btn-primary w-75">Egresar</button>
+                </div>
             </div>
         </form>
 

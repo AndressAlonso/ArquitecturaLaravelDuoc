@@ -5,8 +5,14 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\RopaController;
 use App\Http\Controllers\adminController;
 
+
+
 route::view('/login', "login")->name('login');
-route::get('/NotificacionEscasez', [RopaController::class, 'verificarRopaBaja'])->name('NotificacionEscasez');
+
+
+route::get('/NotificacionEscasez', [RopaController::class, 'EnviarEmailEscasez'])->name('NotificacionEscasez');
+
+
 route::get('/registro', [LoginController::class, 'registro'])->name('registro');
 Route::get('/admin', [adminController::class, 'listTables'])->name('admin.tablas');
 Route::get('/admin/{table}', [adminController::class, 'showTable'])->name('admin.mostrarTabla');

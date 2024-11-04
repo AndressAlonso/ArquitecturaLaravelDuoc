@@ -18,6 +18,7 @@
                         @foreach (json_decode($serviciosClinicosusuario) as $clinicos)
                             <option value="{{ $clinicos->id }}">{{ $clinicos->nombre }}</option>
                         @endforeach
+                        <option value="50">Lavanderia Externa</option>
                     </select>
                 </div>
             </div>

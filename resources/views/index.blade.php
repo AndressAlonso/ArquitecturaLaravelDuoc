@@ -83,12 +83,22 @@
         <li>
         <a class="dropdown-item" href="{{ route('admin.mostrarTabla', 'users') }}">Usuarios</a>
         </li>
+        <li>
+        <a class="dropdown-item" href="{{ route('admin.mostrarTabla', 'movimiento_ropas') }}">Movimientos</a>
+        </li>
+        <li>
+        <a class="dropdown-item" href="{{ route('admin.mostrarTabla', 'movimientos') }}">Tipos Movimientos</a>
+        </li>
+        <li>
+        <a class="dropdown-item" href="{{ route('admin.mostrarTabla', 'ingresos_ropa') }}">Ingresos</a>
+        </li>
+        <li>
+        <a class="dropdown-item" href="{{ route('admin.mostrarTabla', 'ingresos') }}">Tipos Ingresos</a>
+        </li>
       </ul>
       </li>
     @endif
       @endauth
-
-
           <li class="nav-item">
             <a class="nav-link" href="{{route('reportes')}}">Reportes</a>
           </li>
@@ -123,10 +133,14 @@
     @yield('content')
   </main>
   <div class="card text-center">
-    <div class="card-body">
-      <h5 class="card-title">Footer</h5>
-      <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-      <a href="#" class="btn btn-primary">Go somewhere</a>
+    <div>
+      <ul>
+        <li></li>
+
+      </ul>
+    </div>
+    <div class="card-footer text-muted">
+      © 2024 Duoc UC
     </div>
   </div>
 </body>
