@@ -57,8 +57,7 @@ class RopaController extends Controller
         $sclinicosUser = json_decode(auth()->user()->sClinicos, true);
         $serviciosClinicosusuario = ServicioClinico::with('ropas')->whereIn('nombre', $sclinicosUser)->get();
         $ingresosServicioClinico = IngresoRopa::with('ropas')->whereIn('sEntrante', $sclinicosUser)->get();
-        $movimientos = MovimientoRopa::with('ropas')->whereIn('sEntrante', $sclinicosUser)->get();
-
+        $movimientos = MovimientoRopa::with('ropas')->whereIn('sEntrante', $sclinicosUser)->orderByDesc('created_at')->get();
         return view('home', compact('serviciosClinicosusuario', 'ingresosServicioClinico', 'movimientos', 'serviciosConRopaBajaCantidad'));
     }
 
@@ -213,7 +212,6 @@ class RopaController extends Controller
 
         return redirect()->route('home')->with('success', 'Ingreso de Ropa Correcto!');
     }
-
 
 
     public function reportes()

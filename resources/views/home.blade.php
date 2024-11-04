@@ -224,7 +224,7 @@
             </table>
         </div>
     </div>
-    <div id="Movimiento Asociados" class=" my-3 rounded-3 table-responsive  ">
+    <div id="MovimientoAsociados" class=" my-3 rounded-3 table-responsive  ">
         <span>Movimientos Realizados Asociados </span>
         <div class="table-responsive my-3 rounded-3 shadow">
             <table class="table table-hover table-bordered">
@@ -243,7 +243,15 @@
                                         <tr>
                                             <td>{{ $clinico->sEntrante }}</td>
                                             <td>{{ $clinico->sSaliente }}</td>
-                                            <td>{{ \Carbon\Carbon::parse($clinico->created_at)->format('d/m/Y H:i') }}</td>
+                                            <td>
+                                                @if( \Carbon\Carbon::parse($clinico->created_at)->format('d/m')  == \Carbon\Carbon::parse(now())->format('d/m'))
+                                                    <span >Hoy a las {{Carbon\Carbon::parse($clinico->created_at)->format('H:i')}}</span>
+                                                    @elseif(\Carbon\Carbon::parse($clinico->created_at)->format('d/m'))
+
+                                                @else
+                                                <span class="text-capitalize">{{\Carbon\Carbon::parse($clinico->created_at)->translatedFormat('D/m/y')}} a las {{Carbon\Carbon::parse($clinico->created_at)->format('H:i A')}}</span>
+                                                @endif
+                                            </td>
                                             <td>{{ $clinico->tipoMovimiento }}</td>
                                             <td>
                                                 <ul class="list-group">
