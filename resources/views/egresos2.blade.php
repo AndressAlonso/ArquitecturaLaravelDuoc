@@ -3,6 +3,7 @@
 @section('links')
 <link rel="stylesheet" href="{{ asset(path: 'css/egresos.css') }}">@endsection
 @section('content')
+
 <div class="d-flex flex-column container">
     <div class="d-flex justify-content-center flex-column ">
         <div id="egresos" class="d-flex flex-column justify-content-center container-fluid">
@@ -63,9 +64,12 @@
             </div>
             <div id="hEgreso" class="d-flex gap-2 flex-column">
                 <div class="d-flex flex-column">
-                    <span>Egresar hacia: </span>
+                    <span>Egresar hacia : </span>
                     <select name="ServicioDesde" disabled class="form-select" id="ssServicioDesde">
-                        <option value="{{ $servicioClinico2->id }}">{{ $servicioClinico2->nombre }}</option>
+                        <option value="{{ $servicioClinico2->id }}">{{ $servicioClinico2->nombre }} @if ($servicioClinico2->IsLavanderia)
+                        -> Con Servicio De Lavanderia
+                        @endif
+                    </option>
                     </select>
                 </div>
                 <div id="RopaSuciaLimpia"
@@ -131,6 +135,8 @@
                                         name="ropas[{{$ropa->id}}][cantidad]" value="0">
                                     <input type="hidden" name="ropas[{{$ropa->id}}][tipo]" value="{{$ropa->tipo}}">
                                     <input type="hidden" name="ropas[{{$ropa->id}}][estado]" value="sucia">
+                                    <input type="hidden" name="sEntranteID" value="{{$servicioClinico2->id}}">
+                                    
                                 </div>
                             </div>
                         @endif
@@ -163,10 +169,24 @@
                 <input type="hidden" name="sClinico1" value="{{$servicioClinico1}}">
                 <input type="hidden" name="sClinico2" value="{{$servicioClinico2}}">
                 <div class="d-flex flex-column justify-content-center align-items-center w-100 bg-light">
-                    <div class="form-check my-2">
-                        <input type="checkbox" class="form-check-input" id="procesoLavado" name="procesoLavado">
-                        <label for="procesoLavado" class="form-check-label">Proceso de Lavado</label>
-                    </div>
+                    @if ($servicioClinico2->IsLavanderia)
+                        <div>
+                            <div class="form-check my-2">
+                                <input type="checkbox" class="form-check-input" id="procesoLavado" name="procesoLavado">
+                                <label for="procesoLavado" class="form-check-label">Proceso de Lavado</label>
+                            </div>
+                        </div>
+                    @else
+                        <div>
+                            <div class="form-check my-2">
+
+                                <input type="checkbox" class="form-check-input" disabled id="procesoLavado"
+                                    name="procesoLavado">
+
+                                <label for="procesoLavado" class="form-check-label">Proceso de Lavado</label>
+                            </div>
+                        </div>
+                    @endif
                     <button type="submit" class="btn btn-primary w-75">Egresar</button>
                 </div>
             </div>

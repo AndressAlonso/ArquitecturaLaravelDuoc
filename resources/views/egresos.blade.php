@@ -16,9 +16,11 @@
                     <select name="ServicioDesde" class="form-select" id="ssServicioDesde">
                         <option value="-1">Elige Servicio Clínico</option>
                         @foreach (json_decode($serviciosClinicosusuario) as $clinicos)
-                            <option value="{{ $clinicos->id }}">{{ $clinicos->nombre }}</option>
+                            <option value="{{ $clinicos->id }}">{{ $clinicos->nombre }}
+                            @if ($clinicos->IsLavanderia)->Lavanderia
+                            @endif
+                            </option>
                         @endforeach
-                        <option value="50">Lavanderia Externa</option>
                     </select>
                 </div>
             </div>
@@ -28,7 +30,10 @@
                     <select name="ServicioHacia" class="form-select" id="ssServicioHacia">
                         <option value="-1">Elige Servicio Clínico</option>
                         @foreach (json_decode($servicioClinicos) as $clinicos)
-                            <option value="{{ $clinicos->id }}">{{ $clinicos->nombre }}</option>
+                            <option value="{{ $clinicos->id }}">{{ $clinicos->nombre }}
+                                @if ($clinicos->IsLavanderia)->Lavanderia 
+                                @endif 
+                            </option>
                         @endforeach
                     </select>
 

@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('servicio_clinico', function (Blueprint $table) { 
             $table->id();
             $table-> string('nombre');
+            $table -> boolean('IsLavanderia')->default(false)->nullable(false);
+            $table -> string('direccion')->nullable(false)->default('Sin Ubicacion Especificada');
             $table-> timestamps();
         });
     }

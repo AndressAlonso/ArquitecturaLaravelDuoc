@@ -11,6 +11,7 @@ class IngresoRopa extends Model
     protected $fillable = [
         'sEntrante',
         'sSaliente',
+        'sEntranteID',
     ];
 
     public function ropas()

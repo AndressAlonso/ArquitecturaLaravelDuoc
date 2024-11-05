@@ -34,7 +34,6 @@ class RopaController extends Controller
         $usuariosUnicos = $usuariosUnicos->unique('id');
 
         foreach ($usuariosUnicos as $usuario) {
-            // Filtrar los servicios con escasez relacionados con el usuario actual
             $serviciosUsuario = $serviciosConRopaBajaCantidad->filter(function ($servicio) use ($usuario) {
                 return in_array($servicio->nombre, json_decode($usuario->sClinicos, true));
             });
@@ -57,8 +56,6 @@ class RopaController extends Controller
         $serviciosClinicosusuario = ServicioClinico::with('ropas')->whereIn('nombre', $sclinicosUser)->get();
         $ingresosServicioClinico = IngresoRopa::with('ropas')->whereIn('sEntrante', $sclinicosUser)->get();
         $movimientos = MovimientoRopa::with('ropas')->whereIn('sEntrante', $sclinicosUser)->orderByDesc('created_at')->get();
-
-       
 
         return view('home', compact('serviciosClinicosusuario', 'ingresosServicioClinico', 'movimientos', 'serviciosConRopaBajaCantidad'));
     }
@@ -123,14 +120,13 @@ class RopaController extends Controller
                 'cantidad' => $data['cantidad'],
             ]);
         }
-
         $ingresoRopa = IngresoRopa::create([
             'sEntrante' => $servicioClinico2['nombre'],
             'sSaliente' => $servicioClinico1['nombre'],
+            'sEntranteID' => $servicioClinico2['id'],
         ]);
 
         foreach ($ropas as $id => $data) {
-            // Si el checkbox de procesoLavado está marcado y la ropa está sucia, cambia el estado a "limpia"
             $estado = ($procesoLavado && $data['estado'] === 'sucia') ? 'limpia' : $data['estado'];
 
             $ingresoRopa->ropas()->attach($id, [
@@ -209,10 +205,9 @@ class RopaController extends Controller
             ]);
         }
 
-        // Only delete the specific income entry by ID
-        IngresoRopa::where('sEntrante', $request->sEntrante)
-            ->where('id', $request->input('income_id'))
-            ->delete();
+        dd($request->sEntrante);
+        IngresoRopa::where('sEntranteID', $request->sEntrante)
+        ->delete();
 
         return redirect()->route('home')->with('success', 'Ingreso de Ropa Correcto!');
     }
