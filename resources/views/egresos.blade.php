@@ -1,4 +1,4 @@
-@extends('index') 
+@extends('index')
 
 @section('links')
 <link rel="stylesheet" href="{{ asset(path: 'css/egresos.css') }}">@endsection
@@ -16,10 +16,10 @@
                     <select name="ServicioDesde" class="form-select" id="ssServicioDesde">
                         <option value="-1">Elige Servicio Clínico</option>
                         @foreach (json_decode($serviciosClinicosusuario) as $clinicos)
-                            <option value="{{ $clinicos->id }}">{{ $clinicos->nombre }}
+                        <option value="{{ $clinicos->id }}">{{ $clinicos->nombre }}
                             @if ($clinicos->IsLavanderia)->Lavanderia
                             @endif
-                            </option>
+                        </option>
                         @endforeach
                     </select>
                 </div>
@@ -30,10 +30,10 @@
                     <select name="ServicioHacia" class="form-select" id="ssServicioHacia">
                         <option value="-1">Elige Servicio Clínico</option>
                         @foreach (json_decode($servicioClinicos) as $clinicos)
-                            <option value="{{ $clinicos->id }}">{{ $clinicos->nombre }}
-                                @if ($clinicos->IsLavanderia)->Lavanderia 
-                                @endif 
-                            </option>
+                        <option value="{{ $clinicos->id }}">{{ $clinicos->nombre }}
+                            @if ($clinicos->IsLavanderia)->Lavanderia
+                            @endif
+                        </option>
                         @endforeach
                     </select>
 
@@ -45,69 +45,144 @@
     <div id="confirmarEgreso" class="w-100 d-flex justify-content-center align-items-center py-3">
         <button type="submit" class="btn btn-light w-75">Egresar</button>
     </div>
-    <div class="table-responsive my-3 rounded-3 shadow">
-        <table class="table table-hover table-bordered">
-            <thead>
-                <tr>
-                    <th>Nombre</th>
-                    <th>ID</th>
-                    <th>Ropa Sucia</th>
-                    <th>Ropa Limpia</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach(json_decode($servicioClinicos) as $clinico)
-                                <tr>
-                                    <td>{{ $clinico->nombre }}</td>
-                                    <td>{{ $clinico->id }}</td>
-                                    <td>
-                                        <ul class="list-group">
-                                            @php
-                                                $hayRopaSucia = false;
-                                            @endphp
+    <div>
+        <span>Servicios Clinicos</span>
+        <div class="table-responsive my-3 rounded-3 shadow">
+            <table class="table table-hover table-bordered">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>ID</th>
+                        <th>Ropa Sucia</th>
+                        <th>Ropa Limpia</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach(json_decode($servicioClinicos) as $clinico)
+                    <tr>
+                        <td>{{ $clinico->nombre }}</td>
+                        <td>{{ $clinico->id }}</td>
+                        <td>
+                            <ul class="list-group">
+                                @php
+                                $hayRopaSucia = false;
+                                @endphp
 
-                                            @foreach($clinico->ropas as $ropa)
-                                                                @if ($ropa->pivot->estado == 'sucia' && $ropa->pivot->cantidad > 0)
-                                                                                    <li class="text-nowrap list-inline-item">
-                                                                                        <strong>></strong> {{ $ropa->tipo }} - Cantidad: {{ $ropa->pivot->cantidad }}
-                                                                                    </li>
-                                                                                    @php
-                                                                                        $hayRopaSucia = true;
-                                                                                    @endphp
-                                                                @endif
-                                            @endforeach
+                                @foreach($clinico->ropas as $ropa)
+                                @if ($ropa->pivot->estado == 'sucia' && $ropa->pivot->cantidad > 0)
+                                <li class="text-nowrap list-inline-item">
+                                    <strong>></strong> {{ $ropa->tipo }} - Cantidad: {{ $ropa->pivot->cantidad }}
+                                </li>
+                                @php
+                                $hayRopaSucia = true;
+                                @endphp
+                                @endif
+                                @endforeach
 
-                                            @if (!$hayRopaSucia)
-                                                <li class="list-inline-item">No Existe Ropa en el servicio Clinico</li>
-                                            @endif
-                                        </ul>
-                                    </td>
-                                    <td>
-                                        <ul class="list-group">
-                                            @php
-                                                $hayRopaLimpia = false;
-                                            @endphp
+                                @if (!$hayRopaSucia)
+                                <li class="list-inline-item">No Existe Ropa en el servicio Clinico</li>
+                                @endif
+                            </ul>
+                        </td>
+                        <td>
+                            <ul class="list-group">
+                                @php
+                                $hayRopaLimpia = false;
+                                @endphp
 
-                                            @foreach($clinico->ropas as $ropa)
-                                                                @if ($ropa->pivot->estado == 'limpia' && $ropa->pivot->cantidad > 0)
-                                                                                    <li class="list-inline-item text-nowrap">
-                                                                                        <strong>></strong> {{ $ropa->tipo }} - Cantidad: {{ $ropa->pivot->cantidad }}
-                                                                                    </li>
-                                                                                    @php
-                                                                                        $hayRopaLimpia = true;
-                                                                                    @endphp
-                                                                @endif
-                                            @endforeach
+                                @foreach($clinico->ropas as $ropa)
+                                @if ($ropa->pivot->estado == 'limpia' && $ropa->pivot->cantidad > 0)
+                                <li class="list-inline-item text-nowrap">
+                                    <strong>></strong> {{ $ropa->tipo }} - Cantidad: {{ $ropa->pivot->cantidad }}
+                                </li>
+                                @php
+                                $hayRopaLimpia = true;
+                                @endphp
+                                @endif
+                                @endforeach
 
-                                            @if (!$hayRopaLimpia)
-                                                <li class="list-inline-item">No Existe Ropa en el servicio Clinico</li>
-                                            @endif
-                                        </ul>
-                                    </td>
-                                </tr>
-                @endforeach
-            </tbody>
-        </table>
+                                @if (!$hayRopaLimpia)
+                                <li class="list-inline-item">No Existe Ropa en el servicio Clinico</li>
+                                @endif
+                            </ul>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div>
+        <span>Servicios Con Servicio De Lavanderia</span>
+        <div class="table-responsive my-3 rounded-3 shadow">
+            <table class="table table-hover table-bordered">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>ID</th>
+                        <th>Ubicacion</th>
+                        <th>Ropa Sucia</th>
+                        <th>Ropa Limpia</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach(json_decode($servicioClinicos) as $clinico)
+                    @if ($clinico->IsLavanderia)
+                    <tr>
+                        <td>{{ $clinico->nombre }}</td>
+                        <td>{{ $clinico->id }}</td>
+                        <td>{{$clinico->direccion}}</td>
+                        <td>
+                            <ul class="list-group">
+                                @php
+                                $hayRopaSucia = false;
+                                @endphp
+
+                                @foreach($clinico->ropas as $ropa)
+                                @if ($ropa->pivot->estado == 'sucia' && $ropa->pivot->cantidad > 0)
+                                <li class="text-nowrap list-inline-item">
+                                    <strong>></strong> {{ $ropa->tipo }} - Cantidad: {{ $ropa->pivot->cantidad }}
+                                </li>
+                                @php
+                                $hayRopaSucia = true;
+                                @endphp
+                                @endif
+                                @endforeach
+
+                                @if (!$hayRopaSucia)
+                                <li class="list-inline-item">No Existe Ropa en el servicio Clinico</li>
+                                @endif
+                            </ul>
+                        </td>
+                        <td>
+                            <ul class="list-group">
+                                @php
+                                $hayRopaLimpia = false;
+                                @endphp
+
+                                @foreach($clinico->ropas as $ropa)
+                                @if ($ropa->pivot->estado == 'limpia' && $ropa->pivot->cantidad > 0)
+                                <li class="list-inline-item text-nowrap">
+                                    <strong>></strong> {{ $ropa->tipo }} - Cantidad: {{ $ropa->pivot->cantidad }}
+                                </li>
+                                @php
+                                $hayRopaLimpia = true;
+                                @endphp
+                                @endif
+                                @endforeach
+
+                                @if (!$hayRopaLimpia)
+                                <li class="list-inline-item">No Existe Ropa en el servicio Clinico</li>
+                                @endif
+                            </ul>
+                        </td>
+                    </tr>
+                    @endif
+                  
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
     </div>
 
 </form>

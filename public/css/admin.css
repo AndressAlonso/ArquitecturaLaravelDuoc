@@ -4,6 +4,12 @@
 }
 
 
+@media (min-width: 992px) { 
+
+    #right{
+        width: 50%;
+    }
+}
 
 main{
 display: flex;

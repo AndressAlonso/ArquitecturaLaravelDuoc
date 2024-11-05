@@ -133,17 +133,17 @@
   <main class="container-fluid">
     @yield('content')
   </main>
-  <div class="card text-center">
-    <div>
-      <ul>
-        <li></li>
-
-      </ul>
-    </div>
-    <div class="card-footer text-muted">
-      © 2024 Duoc UC
-    </div>
-  </div>
+  <div class="container">
+  <footer class="py-3 my-4">
+    <ul class="nav justify-content-center border-bottom pb-3 mb-3">
+      <li class="nav-item"><a href="{{route('home')}}" class="nav-link px-2 text-muted">Home</a></li>
+      <li class="nav-item"><a href="{{route('egresos')}}" class="nav-link px-2 text-muted">Egresos</a></li>
+      <li class="nav-item"><a href="{{route('ingresos')}}" class="nav-link px-2 text-muted">Ingresos</a></li>
+      <li class="nav-item"><a href="{{route('reportes')}}" class="nav-link px-2 text-muted">Reportes</a></li>
+    </ul>
+    <p class="text-center text-muted">© 2024 Duoc UC</p>
+  </footer>
+</div>
 </body>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
   integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>

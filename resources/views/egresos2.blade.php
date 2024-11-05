@@ -169,7 +169,7 @@
                 <input type="hidden" name="sClinico1" value="{{$servicioClinico1}}">
                 <input type="hidden" name="sClinico2" value="{{$servicioClinico2}}">
                 <div class="d-flex flex-column justify-content-center align-items-center w-100 bg-light">
-                    @if ($servicioClinico2->IsLavanderia)
+                    @if ($servicioClinico1->IsLavanderia)
                         <div>
                             <div class="form-check my-2">
                                 <input type="checkbox" class="form-check-input" id="procesoLavado" name="procesoLavado">

@@ -205,8 +205,7 @@ class RopaController extends Controller
             ]);
         }
 
-        dd($request->sEntrante);
-        IngresoRopa::where('sEntranteID', $request->sEntrante)
+        IngresoRopa::where('id', $request->ingresoID)
         ->delete();
 
         return redirect()->route('home')->with('success', 'Ingreso de Ropa Correcto!');
