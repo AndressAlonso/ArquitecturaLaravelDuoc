@@ -53,14 +53,15 @@ class RopaController extends Controller
             $query->where('cantidad', '<=', 10);
         })->with('ropas')->get()->toJson();
 
-
         $sclinicosUser = json_decode(auth()->user()->sClinicos, true);
         $serviciosClinicosusuario = ServicioClinico::with('ropas')->whereIn('nombre', $sclinicosUser)->get();
         $ingresosServicioClinico = IngresoRopa::with('ropas')->whereIn('sEntrante', $sclinicosUser)->get();
         $movimientos = MovimientoRopa::with('ropas')->whereIn('sEntrante', $sclinicosUser)->orderByDesc('created_at')->get();
+
+       
+
         return view('home', compact('serviciosClinicosusuario', 'ingresosServicioClinico', 'movimientos', 'serviciosConRopaBajaCantidad'));
     }
-
 
 
     public function egresos()
@@ -92,22 +93,22 @@ class RopaController extends Controller
         $servicioClinico2 = json_decode($request->sClinico2, true);
         $ropas = $request->input('ropas');
         $procesoLavado = $request->input('procesoLavado');
-        
+
         $nuevoMovimiento = MovimientoRopa::create([
             'sEntrante' => $servicioClinico2['nombre'],
             'sSaliente' => $servicioClinico1['nombre'],
             'tipoMovimiento' => 'Egreso',
         ]);
-    
+
         $servicioClinico1Model = ServicioClinico::find($servicioClinico1['id']);
-    
+
         foreach ($ropas as $id => $data) {
             $cantidadARestar = (int) $data['cantidad'];
             $ropa = $servicioClinico1Model->ropas()->where('ropa_id', $id)->first();
-    
+
             if ($ropa && $cantidadARestar <= $ropa->pivot->cantidad) {
                 $nuevaCantidad = $ropa->pivot->cantidad - $cantidadARestar;
-    
+
                 if ($nuevaCantidad > 0) {
                     $servicioClinico1Model->ropas()->updateExistingPivot($id, ['cantidad' => $nuevaCantidad]);
                 } else {
@@ -116,31 +117,31 @@ class RopaController extends Controller
             } else {
                 return response()->json(['error' => 'Cantidad a restar excede la cantidad disponible'], 400);
             }
-    
+
             $nuevoMovimiento->ropas()->attach($id, [
                 'estado' => $data['estado'],
                 'cantidad' => $data['cantidad'],
             ]);
         }
-    
+
         $ingresoRopa = IngresoRopa::create([
             'sEntrante' => $servicioClinico2['nombre'],
             'sSaliente' => $servicioClinico1['nombre'],
         ]);
-    
+
         foreach ($ropas as $id => $data) {
             // Si el checkbox de procesoLavado está marcado y la ropa está sucia, cambia el estado a "limpia"
             $estado = ($procesoLavado && $data['estado'] === 'sucia') ? 'limpia' : $data['estado'];
-            
+
             $ingresoRopa->ropas()->attach($id, [
                 'estado' => $estado,
                 'cantidad' => $data['cantidad'],
             ]);
         }
-    
+
         return redirect('/')->with('success', 'Egreso De Ropa Correcto.');
     }
-    
+
 
     public function ingresos()
     {
@@ -208,19 +209,48 @@ class RopaController extends Controller
             ]);
         }
 
-        IngresoRopa::with('ropas')->where('sEntrante', $request->sEntrante)->delete();
+        // Only delete the specific income entry by ID
+        IngresoRopa::where('sEntrante', $request->sEntrante)
+            ->where('id', $request->input('income_id'))
+            ->delete();
 
         return redirect()->route('home')->with('success', 'Ingreso de Ropa Correcto!');
     }
+
 
 
     public function reportes()
     {
         $sclinicosUser = json_decode(auth()->user()->sClinicos, true);
         $serviciosClinicosusuario = json_decode(ServicioClinico::with('ropas')->whereIn('nombre', $sclinicosUser)->get());
-        $movimientos = json_decode(MovimientoRopa::with('ropas')->whereIn('sEntrante', $sclinicosUser)->get());
+        $movimientos = json_decode(MovimientoRopa::with('ropas')->whereIn('sEntrante', $sclinicosUser)->orderByDesc('created_at')->get());
+        $ropas = json_decode(ropa::with('serviciosClinicos')->groupBy('tipo')->get());
+        
+        $sClinicos = ServicioClinico::with('ropas')->get();
+        $ropasAgrupadas = [];
+        $listado = [];
 
-        return view('reportes', compact('serviciosClinicosusuario', 'movimientos'));
+        foreach ($ropas as $ropa) {
+            $tiposAsociados = []; 
+
+            foreach ($sClinicos as $clinico) {
+                $ropasClinico = $clinico->ropas->pluck('tipo')->toArray();
+
+                if (in_array($ropa->tipo, $ropasClinico)) {
+                    $tiposAsociados[] = $clinico; 
+                }
+            }
+
+            if (!empty($tiposAsociados)) {
+                $listado[] = [
+                    'ropa' => $ropa->tipo,
+                    'servicios' => $tiposAsociados
+                ];
+            }
+        }
+
+      
+        return view('reportes', compact('serviciosClinicosusuario', 'movimientos', 'listado'));
     }
 
 }

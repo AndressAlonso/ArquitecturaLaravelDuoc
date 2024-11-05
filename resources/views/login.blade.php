@@ -8,7 +8,7 @@
     class="d-flex flex-column justify-content-center align-items-center container gap-2 my-3">
     @csrf
     <img src="{{asset('icons/IconLavanaderia.svg')}}" alt="" width="40" height="40">
-    <span class="fw-bold text-center">Iniciar Sesion En SisInventarioLavanderia</span>
+    <span class="fw-bold text-center">Iniciar Sesion En InventarioClinico</span>
     <div>
         <label for="id_username" class="form-label">Email</label>
         <input type="email" maxlength="150"

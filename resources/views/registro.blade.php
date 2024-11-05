@@ -7,7 +7,7 @@
     class="d-flex flex-column justify-content-center align-items-center container gap-2">
     @csrf
     <img src=" {{asset('icons/IconLavanaderia.svg')}} " alt="" width="40" height="40">
-    <span class="fw-bold text-center">Registrarse en TechTreasure</span>
+    <span class="fw-bold text-center">Registrarse en InventarioClinico</span>
     <div>
         <label for="id_username" class="form-label">Email</label>
         <input type="email" autofocus="" autocapitalize="none" autocomplete="disable" maxlength="150" required
