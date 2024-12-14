@@ -6,6 +6,16 @@
         opacity: 1;
     }
 }
+.multiselect-container>li>a>label {
+    padding: 4px 20px 3px 20px;
+  }
+select {
+	padding: 0.2em  0.5em 0.2em 1.5em;
+	background-image: url( 'https://icon666.com/r/_thumb/vz1/vz1n5brw7jfi_64.png' );
+	background-repeat: no-repeat;
+	background-size: 0.8em auto;
+	background-position: 0.4em center;
+}
 
 #carrito_container{
    animation: carrito 0.5s;

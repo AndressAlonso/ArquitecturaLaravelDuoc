@@ -2,6 +2,16 @@
 
 @section('links')
 <link rel="stylesheet" href="{{ asset('css/carrito.css') }}">
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        btnfilter = document.getElementById('btnFilter');
+        formfilter = document.getElementById('formfilter');
+        btnfilter.addEventListener('onclick', function () {
+            console.log('click');
+            formfilter.submit();
+        });
+    });
+</script>
 @endsection
 
 @section('content')
@@ -9,7 +19,46 @@
     <div id="title" class="w-100 text-end p-1">
         <span class="w-100">Reportes</span>
     </div>
-    <span class="fw-bold">Servicios Clínicos Asociados</span>
+
+    <div class="w-100 d-flex justify-content-between align-items-center">
+        <span class="fw-bold">Servicios Clínicos Asociados</span>
+       
+    </div>
+    <div id="filtros">
+        <div class="border border-dark-subte my-2"></div>
+        <form id="formfilter" method="get" action="{{route('reportes')}}">
+            
+            <div>
+                <div>
+                    <span>Servicios Clinicos</span>
+                </div>
+                <div class="d-flex justify-content-start gap-3 align-items-center flex-wrap">
+                    @foreach ($serviciosClinicosusuario as $servicio)
+                        <div>
+                            <input class="form-check-input" type="checkbox" name="serviciosClinicos[]"
+                                value="{{$servicio->nombre}}" id="flexCheckDefault{{$loop->index}}">
+                            <label class="form-check-label"
+                                for="flexCheckDefault{{$loop->index}}">{{$servicio->nombre}}</label>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+           
+            <div class="d-flex w-100 justify-content-md-start my-2 justify-content-center">
+                <button id="btnFilter" type="submit" class="btn btn-outline-primary text-dark border-0">
+                    <svg id="Capa_1" width="20" height="20" enable-background="new 0 0 512 512" viewBox="0 0 512 512"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <g>
+                            <path
+                                d="m0 0v93.925l202.086 205.19v212.885l107.828-68.379v-144.506l202.086-205.19v-93.925zm482 29.963v42.891h-452v-42.891zm-202.086 256.972v140.219l-47.828 30.33v-170.549l-181.333-184.118h410.494z" />
+                        </g>
+                    </svg>
+                    Filtrar
+                </button>
+            </div>
+        </form>
+        <div class="border border-dark-subte my-2"></div>
+    </div>
     <div class="table-responsive my-3 rounded-3 shadow">
         <table class="table table-hover table-bordered">
             <thead>
@@ -17,12 +66,15 @@
                     <th>Nombre</th>
                     <th>ID</th>
 
-                    <th>Ropa Sucia</th>
+                    <th>
+                        <span>Ropa Sucia</span>
+
+                    </th>
                     <th>Ropa Limpia</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach ($serviciosClinicosusuario as $clinico)
+                @foreach ($ssclinicosFiltro as $clinico)
                                 <tr>
                                     <td>{{ $clinico->nombre }}</td>
                                     <td>{{ $clinico->id }}</td>
@@ -35,7 +87,8 @@
                                             @foreach ($clinico->ropas as $ropa)
                                                                 @if ($ropa->pivot->estado == 'sucia' && $ropa->pivot->cantidad > 0)
                                                                                     <li class="list-inline-item"><strong>></strong> {{ $ropa->tipo }} - Cantidad:
-                                                                                        {{ $ropa->pivot->cantidad }}</li>
+                                                                                        {{ $ropa->pivot->cantidad }}
+                                                                                    </li>
                                                                                     @php
                                                                                         $hayRopaLimpia = true;
                                                                                     @endphp
@@ -56,7 +109,8 @@
                                             @foreach ($clinico->ropas as $ropa)
                                                                 @if ($ropa->pivot->estado == 'limpia' && $ropa->pivot->cantidad > 0)
                                                                                     <li class="list-inline-item"><strong>></strong> {{ $ropa->tipo }} - Cantidad:
-                                                                                        {{ $ropa->pivot->cantidad }}</li>
+                                                                                        {{ $ropa->pivot->cantidad }}
+                                                                                    </li>
                                                                                     @php
                                                                                         $hayRopaLimpia = true;
                                                                                     @endphp
@@ -76,8 +130,42 @@
 
     <div id="Ropas" class="e my-3 w-100 rounded-3  ">
         @if(Auth::user()->isAdmin)
-            <div class="d-flex align-items-center justify-content-between">
-                <span>Reporte de Inventario(Administrador)</span>
+            <div class="w-100 d-flex justify-content-between align-items-center">
+                <span class="fw-bold">Servicios Clínicos Asociados</span>
+
+            </div>
+            <div id="filtros">
+                <div class="border border-dark-subte my-2"></div>
+                <form id="formfilter" method="get" action="{{route('reportes')}}">
+                    <div>
+                        <div>
+                            <span>Tipos Ropa</span>
+                        </div>
+                        <div class="d-flex justify-content-start gap-3 align-items-center">
+                            @foreach ($ropas as $ropa)
+                                <div class="text-nowrap">
+                                    <input class="form-check-input" type="checkbox" name="tiposRopa[]" value="{{$ropa->tipo}}"
+                                        id="ropa{{$loop->index}}">
+                                    <label class="form-check-label"
+                                        for="ropa{{$loop->index}}">{{$ropa->tipo}}</label>
+                                </div>
+                            @endforeach
+                        </div>
+                    </div>
+                    <div class="d-flex w-100 justify-content-md-start my-2 justify-content-center">
+                        <button id="btnFilter" type="submit" class="btn btn-outline-primary text-dark border-0">
+                            <svg id="Capa_1" width="20" height="20" enable-background="new 0 0 512 512"
+                                viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg">
+                                <g>
+                                    <path
+                                        d="m0 0v93.925l202.086 205.19v212.885l107.828-68.379v-144.506l202.086-205.19v-93.925zm482 29.963v42.891h-452v-42.891zm-202.086 256.972v140.219l-47.828 30.33v-170.549l-181.333-184.118h410.494z" />
+                                </g>
+                            </svg>
+                            Filtrar
+                        </button>
+                    </div>
+                </form>
+                <div class="border border-dark-subte my-2"></div>
             </div>
             <div class="table-responsive my-3 rounded-3 shadow">
                 <table class="table table-hover table-bordered">
@@ -91,7 +179,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach ($listado as $ropa)
+                        @foreach ($listadoFiltrado as $ropa)
                                         <tr class="">
                                             <td>{{ $ropa['ropa'] }}</td>
                                             <td>
@@ -107,15 +195,15 @@
 
                                             <td class="m-auto text-center">
                                                 @php
-                                                    $totalRopa = 0; 
-                                                  @endphp
+                                                    $totalRopa = 0;
+                                                @endphp
                                                 @foreach($ropa['servicios'] as $clinico)
 
                                                             @foreach($clinico->ropas as $ropaItem)
                                                                         @if ($ropaItem->tipo == $ropa['ropa'] && $ropaItem->pivot->estado == 'sucia')
                                                                                     @php
                                                                                         $totalRopa += $ropaItem->pivot->cantidad;
-                                                                                      @endphp
+                                                                                    @endphp
 
                                                                         @endif
                                                             @endforeach
@@ -127,15 +215,15 @@
                                             </td>
                                             <td class="m-auto text-center">
                                                 @php
-                                                    $totalRopa = 0; 
-                                                  @endphp
+                                                    $totalRopa = 0;
+                                                @endphp
                                                 @foreach($ropa['servicios'] as $clinico)
 
                                                             @foreach($clinico->ropas as $ropaItem)
                                                                         @if ($ropaItem->tipo == $ropa['ropa'] && $ropaItem->pivot->estado == 'limpia')
                                                                                     @php
                                                                                         $totalRopa += $ropaItem->pivot->cantidad;
-                                                                                      @endphp
+                                                                                    @endphp
 
                                                                         @endif
                                                             @endforeach
@@ -146,15 +234,15 @@
                                             </td>
                                             <td class="m-auto text-center">
                                                 @php
-                                                    $totalRopa = 0; 
-                                                  @endphp
+                                                    $totalRopa = 0;
+                                                @endphp
                                                 @foreach($ropa['servicios'] as $clinico)
 
                                                             @foreach($clinico->ropas as $ropaItem)
                                                                         @if ($ropaItem->tipo == $ropa['ropa'])
                                                                                     @php
                                                                                         $totalRopa += $ropaItem->pivot->cantidad;
-                                                                                      @endphp
+                                                                                    @endphp
 
                                                                         @endif
                                                             @endforeach
@@ -194,30 +282,30 @@
                                     <td>{{ $clinico->sEntrante }}</td>
                                     <td>{{ $clinico->sSaliente }}</td>
                                     <td>
-                            @if(
-                            \Carbon\Carbon::parse($clinico->created_at)->timezone('America/Santiago')->translatedFormat('d/m')
-                            ==
-                            \Carbon\Carbon::now()->timezone('America/Santiago')->translatedFormat('d/m')
-                            )
-                            <span>Hoy a las
-                                {{
-                                Carbon\Carbon::parse($clinico->created_at)->timezone('America/Santiago')->translatedFormat('H:i')
-                                }}</span>
-                            @elseif(\Carbon\Carbon::parse($clinico->created_at)->timezone('America/Santiago')->isYesterday())
-                            <span>Ayer a las
-                                {{
-                                Carbon\Carbon::parse($clinico->created_at)->timezone('America/Santiago')->translatedFormat('H:i')
-                                }}</span>
-                            @else
-                            <span class="text-capitalize">{{
-                                Carbon\Carbon::parse($clinico->created_at)->timezone('America/Santiago')->translatedFormat('D/m/y')
-                                }}
-                                a las
-                                {{ Carbon\Carbon::parse($clinico->created_at)->timezone('America/Santiago')->format('H:i
-                                A') }}</span>
-                            @endif
+                                        @if(
+                                                \Carbon\Carbon::parse($clinico->created_at)->timezone('America/Santiago')->translatedFormat('d/m')
+                                                ==
+                                                \Carbon\Carbon::now()->timezone('America/Santiago')->translatedFormat('d/m')
+                                            )
+                                                                <span>Hoy a las
+                                                                    {{
+                                                    Carbon\Carbon::parse($clinico->created_at)->timezone('America/Santiago')->translatedFormat('H:i')
+                                                                                                            }}</span>
+                                        @elseif(\Carbon\Carbon::parse($clinico->created_at)->timezone('America/Santiago')->isYesterday())
+                                                        <span>Ayer a las
+                                                            {{
+                                            Carbon\Carbon::parse($clinico->created_at)->timezone('America/Santiago')->translatedFormat('H:i')
+                                                                                            }}</span>
+                                        @else
+                                                        <span class="text-capitalize">{{
+                                            Carbon\Carbon::parse($clinico->created_at)->timezone('America/Santiago')->translatedFormat('D/m/y')
+                                                                                            }}
+                                                            a las
+                                                            {{ Carbon\Carbon::parse($clinico->created_at)->timezone('America/Santiago')->format('H:i
+                                                                                            A') }}</span>
+                                        @endif
 
-                        </td>
+                                    </td>
                                     <td>{{ $clinico->tipoMovimiento }}</td>
                                     <td>
                                         <ul class="list-group">
@@ -227,7 +315,8 @@
                                             @foreach ($clinico->ropas as $ropa)
                                                                 @if ($ropa->pivot->estado == 'sucia' && $ropa->pivot->cantidad > 0)
                                                                                     <li class="list-inline-item"><strong>></strong> {{ $ropa->tipo }} - Cantidad:
-                                                                                        {{ $ropa->pivot->cantidad }}</li>
+                                                                                        {{ $ropa->pivot->cantidad }}
+                                                                                    </li>
                                                                                     @php
                                                                                         $hayRopaSucia = true;
                                                                                     @endphp
@@ -246,7 +335,8 @@
                                             @foreach ($clinico->ropas as $ropa)
                                                                 @if ($ropa->pivot->estado == 'limpia' && $ropa->pivot->cantidad > 0)
                                                                                     <li class="list-inline-item"><strong>></strong> {{ $ropa->tipo }} - Cantidad:
-                                                                                        {{ $ropa->pivot->cantidad }}</li>
+                                                                                        {{ $ropa->pivot->cantidad }}
+                                                                                    </li>
                                                                                     @php
                                                                                         $hayRopaLimpia = true;
                                                                                     @endphp
@@ -262,10 +352,6 @@
             </tbody>
         </table>
     </div>
-
-
-
-
 </div>
 
 @endsection

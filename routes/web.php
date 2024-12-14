@@ -31,7 +31,6 @@ Route::post('/ingresos2', [RopaController::class, 'ingresos2'])->middleware('aut
 
 Route::post('/ingresarRopa', [RopaController::class, 'ingresarRopa'])->middleware('auth')->name('ingresarRopa');
 
-
 Route::get('/egresos', [RopaController::class, 'egresos'])->middleware('auth')->name('egresos');
 Route::get('/reportes', [RopaController::class, 'reportes'])->middleware('auth')->name('reportes');
 Route::post('/egresos2', [RopaController::class, 'egresos2'])->middleware('auth')->name('egresos2');

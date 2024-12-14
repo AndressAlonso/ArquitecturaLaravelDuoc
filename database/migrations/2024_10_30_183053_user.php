@@ -17,9 +17,11 @@ return new class extends Migration
             $table->string('fname');
             $table->string('lname');
             $table->json('sClinicos');
+            $table->timestamp('last_email_sent_at')->nullable();
             $table->boolean('isAdmin')->default(false);
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            
             $table->rememberToken();
             $table->timestamps();
         });

@@ -27,6 +27,7 @@ class DatabaseSeeder extends Seeder
             'lname' => 'User',
             'sClinicos' => json_encode($allServiciosClinicos),
             'isAdmin' => true,
+          
             'password' => Hash::make('adminadmin'),
         ]);
 

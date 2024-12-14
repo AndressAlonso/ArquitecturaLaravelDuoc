@@ -2,28 +2,39 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\IngresoServicio;
 use App\Models\IngresoRopa;
 use App\Models\MovimientoRopa;
 use App\Models\ropa;
 use App\Models\ServicioClinico;
-use App\Models\tipo_servicios_cli;
-use App\Models\tipoRopa;
-use Illuminate\Support\Facades\DB;
+
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Mail\ServiciosCEscasezRopa;
 use Mail;
-use PHPUnit\Framework\MockObject\Stub\ReturnSelf;
 
 class RopaController extends Controller
 {
-    public function EnviarEmailEscasez()
+
+    
+    public function verificarEscasez()
     {
         $serviciosConRopaBajaCantidad = ServicioClinico::whereHas('ropas', function ($query) {
             $query->where('cantidad', '<', 10);
         })->with('ropas')->get();
 
+        if($serviciosConRopaBajaCantidad->isNotEmpty()){
+            return $this->EnviarEmailEscasez();
+        }else{
+            return false;
+        };
+    }
+    
+    public function EnviarEmailEscasez()
+    {
+        $serviciosConRopaBajaCantidad = ServicioClinico::whereHas('ropas', function ($query) {
+            $query->where('cantidad', '<', 10);
+        })->with('ropas')->get();
+       
         $usuariosUnicos = collect();
 
         foreach ($serviciosConRopaBajaCantidad as $servicio) {
@@ -44,8 +55,6 @@ class RopaController extends Controller
         return redirect()->route('home')->with('success', 'Emails enviados correctamente.');
     }
 
-
-
     public function home()
     {
         $serviciosConRopaBajaCantidad = ServicioClinico::whereHas('ropas', function ($query) {
@@ -59,7 +68,6 @@ class RopaController extends Controller
 
         return view('home', compact('serviciosClinicosusuario', 'ingresosServicioClinico', 'movimientos', 'serviciosConRopaBajaCantidad'));
     }
-
 
     public function egresos()
     {
@@ -82,7 +90,6 @@ class RopaController extends Controller
         $servicioClinico2 = ServicioClinico::with('ropas')->where('id', $servicio2)->first();
         return view('egresos2', compact('servicioClinico1', 'servicioClinico2'));
     }
-
 
     public function egresarRopas(Request $request)
     {
@@ -137,8 +144,6 @@ class RopaController extends Controller
 
         return redirect('/')->with('success', 'Egreso De Ropa Correcto.');
     }
-
-
     public function ingresos()
     {
         $sclinicosUser = json_decode(auth()->user()->sClinicos, true);
@@ -168,7 +173,6 @@ class RopaController extends Controller
 
         return view('ingresos2', compact('ingresosServicioClinico', 'servicioClinicoarray'));
     }
-
     public function ingresarRopa(Request $request)
     {
         $servicioClinico = ServicioClinico::with('ropas')->where('nombre', $request->sEntrante)->first();
@@ -206,32 +210,47 @@ class RopaController extends Controller
         }
 
         IngresoRopa::where('id', $request->ingresoID)
-        ->delete();
+            ->delete();
 
         return redirect()->route('home')->with('success', 'Ingreso de Ropa Correcto!');
     }
-
-
-
-    public function reportes()
+    public function reportes(Request $request)
     {
-        $sclinicosUser = json_decode(auth()->user()->sClinicos, true);
-        $serviciosClinicosusuario = json_decode(ServicioClinico::with('ropas')->whereIn('nombre', $sclinicosUser)->get());
+
+        $ssclinicosRR = $request->serviciosClinicos;
+        $tiposropasRR = $request->tiposRopa;
+        
+        if ($ssclinicosRR){
+            $sclinicosUser = $ssclinicosRR;
+            $sclinicosSin = json_decode(auth()->user()->sClinicos, true);
+            $serviciosClinicosusuario = json_decode(ServicioClinico::with('ropas')->whereIn('nombre', $sclinicosSin)->get());
+            $ssclinicosFiltro = json_decode(ServicioClinico::with('ropas')->whereIn('nombre', $sclinicosUser)->get());
+           
+        }else{
+            $sclinicosUser =  json_decode(auth()->user()->sClinicos, true);;
+            $sclinicosSin = json_decode(auth()->user()->sClinicos, true);
+            $serviciosClinicosusuario = json_decode(ServicioClinico::with('ropas')->whereIn('nombre', $sclinicosSin)->get());
+            $ssclinicosFiltro = json_decode(ServicioClinico::with('ropas')->whereIn('nombre', $sclinicosSin)->get());
+        }
+    
+        
         $movimientos = json_decode(MovimientoRopa::with('ropas')->whereIn('sEntrante', $sclinicosUser)->orderByDesc('created_at')->get());
         $ropas = json_decode(ropa::with('serviciosClinicos')->groupBy('tipo')->get());
-        
+
+      
+
         $sClinicos = ServicioClinico::with('ropas')->get();
         $ropasAgrupadas = [];
         $listado = [];
 
         foreach ($ropas as $ropa) {
-            $tiposAsociados = []; 
+            $tiposAsociados = [];
 
             foreach ($sClinicos as $clinico) {
                 $ropasClinico = $clinico->ropas->pluck('tipo')->toArray();
-
+                
                 if (in_array($ropa->tipo, $ropasClinico)) {
-                    $tiposAsociados[] = $clinico; 
+                    $tiposAsociados[] = $clinico;
                 }
             }
 
@@ -242,9 +261,17 @@ class RopaController extends Controller
                 ];
             }
         }
-
-      
-        return view('reportes', compact('serviciosClinicosusuario', 'movimientos', 'listado'));
+        if ($tiposropasRR){
+            $listadoFiltrado = array_filter($listado, function ($item) use ($tiposropasRR) {
+                return in_array($item['ropa'], $tiposropasRR);
+            });
+            
+            $listadoFiltrado = array_values($listadoFiltrado);
+        }else{
+            $listadoFiltrado = $listado;
+        }
+        return view('reportes', compact('serviciosClinicosusuario', 'movimientos', 'listadoFiltrado', 'ropas', 'ssclinicosFiltro'));
     }
+    
 
 }
