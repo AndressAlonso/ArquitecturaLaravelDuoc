@@ -39,6 +39,9 @@
         </table>
     </div>
 
-    <p>Por favor, tome las medidas necesarias.</p>
-</body>
+    <ul>
+        <li><strong>Realizar un egreso de ropa:</strong> Revisar el inventario disponible y proceder con la distribución necesaria para suplir la demanda inmediata.</li>
+        <li><strong>Contactar al administrador:</strong> Coordinar con la administración para evaluar alternativas y gestionar soluciones eficaces.</li>
+        <li><strong>Establecer egresos entre servicios asociados:</strong> Implementar un esquema de apoyo entre servicios clínicos relacionados para optimizar la distribución de los recursos disponibles.</li>
+    </ul></body>
 </html>
